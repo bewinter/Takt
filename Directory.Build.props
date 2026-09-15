@@ -16,7 +16,7 @@
   <!-- The release workflow overrides Version from the tag it builds; the value here is
        what a local build reports in the navigation rail. -->
   <PropertyGroup>
-    <Version>0.1.0</Version>
+    <Version>0.3.0</Version>
     <Product>Takt</Product>
     <Authors>Christian Flessa</Authors>
     <Company>Christian Flessa</Company>

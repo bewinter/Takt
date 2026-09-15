@@ -121,7 +121,7 @@ public sealed partial class App : Application
     {
         if (SingleInstance is { } guard)
         {
-            guard.ActivationRequested += (_, _) => Dispatcher.UIThread.Post(ShowWidget);
+            guard.ActivationRequested += (_, _) => Dispatcher.UIThread.Post(ShowMainWindow);
         }
     }
 
@@ -149,7 +149,7 @@ public sealed partial class App : Application
             ToolTipText = "Takt",
             Menu = menu
         };
-        _trayIcon.Clicked += (_, _) => ShowWidget();
+        _trayIcon.Clicked += (_, _) => ShowMainWindow();
         TrayIcon.SetIcons(this, [
             _trayIcon
         ]);
@@ -183,8 +183,8 @@ public sealed partial class App : Application
             return;
         }
 
-        _mainWindow ??= serviceProvider.GetRequiredService<MainWindow>();
-        _mainWindow.ShowAndActivate();
+        var mainWindow = _mainWindow ??= serviceProvider.GetRequiredService<MainWindow>();
+        Dispatcher.UIThread.Post(mainWindow.ShowAndActivate);
     }
 
     private void ShowWidget()

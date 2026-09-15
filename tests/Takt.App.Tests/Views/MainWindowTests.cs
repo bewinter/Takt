@@ -148,6 +148,44 @@ public class MainWindowTests
     }
 
     [AvaloniaTest]
+    public void MainWindow_ReopensAfterBeingClosed()
+    {
+        using var context = new TestContext();
+        var window = context.CreateWindow();
+
+        window.ShowAndActivate();
+        Dispatcher.UIThread.RunJobs();
+        window.Close();
+
+        window.IsVisible.Should().BeFalse();
+
+        window.ShowAndActivate();
+        Dispatcher.UIThread.RunJobs();
+
+        window.IsVisible.Should().BeTrue();
+
+        window.Hide();
+    }
+
+    [AvaloniaTest]
+    public void MainWindow_RestoresWhenItWasMinimized()
+    {
+        using var context = new TestContext();
+        var window = context.CreateWindow();
+
+        window.ShowAndActivate();
+        Dispatcher.UIThread.RunJobs();
+        window.WindowState = WindowState.Minimized;
+
+        window.ShowAndActivate();
+        Dispatcher.UIThread.RunJobs();
+
+        window.WindowState.Should().Be(WindowState.Normal);
+
+        window.Hide();
+    }
+
+    [AvaloniaTest]
     public void MainWindow_ShowsTheOverviewWithItsEntries()
     {
         using var context = new TestContext();

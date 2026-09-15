@@ -34,6 +34,11 @@ public sealed partial class MainWindow : Window
     /// <summary>Shows the window, brings it to the front, and reloads the current page.</summary>
     public void ShowAndActivate()
     {
+        if (WindowState == WindowState.Minimized)
+        {
+            WindowState = WindowState.Normal;
+        }
+
         Show();
         Activate();
         _viewModel.Refresh();
