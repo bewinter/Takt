@@ -31,4 +31,7 @@ public sealed class AppSettings
 
     /// <summary>Indicates whether the widget shows the Jira issue key of the current task.</summary>
     public Boolean WidgetShowIssueKey { get; set; } = true;
+
+    /// <summary>Indicates whether the widget draws a green outline for contrast.</summary>
+    public Boolean WidgetShowOutline { get; set; }
 }

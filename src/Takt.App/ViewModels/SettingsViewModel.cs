@@ -58,6 +58,9 @@ public sealed partial class SettingsViewModel : ObservableObject
     [ObservableProperty]
     private Boolean _widgetShowIssueKey;
 
+    [ObservableProperty]
+    private Boolean _widgetShowOutline;
+
     /// <summary>Creates the view model and loads the stored settings.</summary>
     /// <param name="settings">The settings repository.</param>
     /// <param name="credentials">The credential store holding the API token.</param>
@@ -97,6 +100,7 @@ public sealed partial class SettingsViewModel : ObservableObject
         JiraEmail = settings.JiraEmail;
         WidgetAlwaysOnTop = settings.WidgetAlwaysOnTop;
         WidgetShowIssueKey = settings.WidgetShowIssueKey;
+        WidgetShowOutline = settings.WidgetShowOutline;
         WidgetPositionText = settings is { WidgetPositionX: { } x, WidgetPositionY: { } y }
             ? String.Format(CultureInfo.CurrentCulture, "Currently at {0}, {1}", x, y)
             : "No position saved yet";
@@ -111,6 +115,8 @@ public sealed partial class SettingsViewModel : ObservableObject
     partial void OnWidgetAlwaysOnTopChanged(Boolean value) => SaveWidgetPreferences();
 
     partial void OnWidgetShowIssueKeyChanged(Boolean value) => SaveWidgetPreferences();
+
+    partial void OnWidgetShowOutlineChanged(Boolean value) => SaveWidgetPreferences();
 
     [RelayCommand]
     private void ResetWidgetPosition()
@@ -137,6 +143,7 @@ public sealed partial class SettingsViewModel : ObservableObject
         settings.JiraEmail = Normalize(JiraEmail);
         settings.WidgetAlwaysOnTop = WidgetAlwaysOnTop;
         settings.WidgetShowIssueKey = WidgetShowIssueKey;
+        settings.WidgetShowOutline = WidgetShowOutline;
         _settings.Save(settings);
 
         if (Normalize(ApiToken) is { } token)
@@ -159,6 +166,7 @@ public sealed partial class SettingsViewModel : ObservableObject
         var settings = _settings.Get();
         settings.WidgetAlwaysOnTop = WidgetAlwaysOnTop;
         settings.WidgetShowIssueKey = WidgetShowIssueKey;
+        settings.WidgetShowOutline = WidgetShowOutline;
         _settings.Save(settings);
         _notifier.NotifyChanged();
     }

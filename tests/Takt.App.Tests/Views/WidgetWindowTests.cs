@@ -11,6 +11,7 @@ using Avalonia.Styling;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using FluentAssertions;
+using Takt.App.Services;
 using Takt.App.ViewModels;
 using Takt.App.Views;
 using Takt.Core.Storage;
@@ -24,6 +25,46 @@ using Takt.Core.Tracking;
 public class WidgetWindowTests
 {
     private static readonly DateTime BaseTime = new(2026, 8, 23, 9, 0, 0, DateTimeKind.Utc);
+
+    [AvaloniaTest]
+    public void Widget_AppliesTheConfiguredOutlineAndUpdatesItLive()
+    {
+        using var tempDatabase = new TempDatabase();
+        var timeEntries = new LiteDbTimeEntryRepository(tempDatabase.Database);
+        var settings = new LiteDbSettingsRepository(tempDatabase.Database);
+        settings.Save(new()
+        {
+            WidgetShowOutline = true
+        });
+        var timeProvider = new TestTimeProvider
+        {
+            UtcNow = BaseTime
+        };
+        var templates = new LiteDbTemplateRepository(tempDatabase.Database);
+        var viewModel = new WidgetViewModel(
+            new(timeEntries, timeProvider),
+            templates,
+            timeEntries,
+            settings,
+            timeProvider,
+            new StubJiraClient(),
+            new(timeEntries, templates));
+        var notifier = new SettingsNotifier();
+        var window = new WidgetWindow(viewModel, settings, notifier);
+        window.Show();
+        Dispatcher.UIThread.RunJobs();
+
+        var rootBorder = window.FindControl<Border>("RootBorder");
+        rootBorder.Should().NotBeNull();
+        rootBorder.BorderThickness.Should().Be(new Thickness(1));
+
+        settings.Save(new());
+        notifier.NotifyChanged();
+
+        rootBorder.BorderThickness.Should().Be(new Thickness(0));
+
+        window.Hide();
+    }
 
     [AvaloniaTest]
     public void Widget_KeepsThePillDarkWhileItsFlyoutFollowsTheAppearance()

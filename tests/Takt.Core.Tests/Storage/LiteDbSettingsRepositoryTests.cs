@@ -34,6 +34,7 @@ public class LiteDbSettingsRepositoryTests
         settings.JiraEmail.Should().BeNull();
         settings.WidgetAlwaysOnTop.Should().BeTrue();
         settings.WidgetShowIssueKey.Should().BeTrue();
+        settings.WidgetShowOutline.Should().BeFalse();
     }
 
     [Test]
@@ -51,6 +52,7 @@ public class LiteDbSettingsRepositoryTests
         settings.JiraEmail.Should().Be("chris@example.com");
         settings.WidgetAlwaysOnTop.Should().BeTrue();
         settings.WidgetShowIssueKey.Should().BeTrue();
+        settings.WidgetShowOutline.Should().BeFalse();
     }
 
     [Test]
@@ -59,13 +61,15 @@ public class LiteDbSettingsRepositoryTests
         _repository.Save(new()
         {
             WidgetAlwaysOnTop = false,
-            WidgetShowIssueKey = false
+            WidgetShowIssueKey = false,
+            WidgetShowOutline = true
         });
 
         var stored = _repository.Get();
 
         stored.WidgetAlwaysOnTop.Should().BeFalse();
         stored.WidgetShowIssueKey.Should().BeFalse();
+        stored.WidgetShowOutline.Should().BeTrue();
     }
 
     [Test]

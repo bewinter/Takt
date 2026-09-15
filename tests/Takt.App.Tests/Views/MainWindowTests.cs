@@ -236,6 +236,13 @@ public class MainWindowTests
         context.MainViewModel.IsSettingsSelected.Should().BeTrue();
         window.GetVisualDescendants().OfType<SettingsView>().Should().ContainSingle();
 
+        var outlineCheckBox = window.GetVisualDescendants()
+                                    .OfType<CheckBox>()
+                                    .Single(checkBox => Equals(checkBox.Content, "Show a highlighted outline around the widget"));
+        outlineCheckBox.IsChecked = true;
+        Dispatcher.UIThread.RunJobs();
+        context.Settings.Get().WidgetShowOutline.Should().BeTrue();
+
         window.Hide();
     }
 
