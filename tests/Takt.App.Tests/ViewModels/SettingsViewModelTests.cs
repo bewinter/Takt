@@ -50,7 +50,8 @@ public class SettingsViewModelTests
             JiraEmail = "chris@example.com",
             WidgetPositionX = 1720,
             WidgetPositionY = 40,
-            WidgetShowIssueKey = false
+            WidgetShowIssueKey = false,
+            WidgetShowOutline = true
         });
 
         _viewModel.Refresh();
@@ -59,6 +60,7 @@ public class SettingsViewModelTests
         _viewModel.JiraEmail.Should().Be("chris@example.com");
         _viewModel.WidgetAlwaysOnTop.Should().BeTrue();
         _viewModel.WidgetShowIssueKey.Should().BeFalse();
+        _viewModel.WidgetShowOutline.Should().BeTrue();
         _viewModel.WidgetPositionText.Should().Be("Currently at 1720, 40");
         _viewModel.ApiToken.Should().BeNull();
     }
@@ -140,6 +142,11 @@ public class SettingsViewModelTests
 
         _settings.Get().WidgetShowIssueKey.Should().BeFalse();
         _notificationCount.Should().Be(2);
+
+        _viewModel.WidgetShowOutline = true;
+
+        _settings.Get().WidgetShowOutline.Should().BeTrue();
+        _notificationCount.Should().Be(3);
     }
 
     [Test]

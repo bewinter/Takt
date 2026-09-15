@@ -49,6 +49,8 @@
 
     <Border x:Name="RootBorder"
             Background="#F0222937"
+            BorderBrush="#FF9FE870"
+            BorderThickness="0"
             CornerRadius="10"
             Padding="14,8,8,8"
             MinWidth="250">

@@ -75,6 +75,9 @@
                     <CheckBox x:Name="ShowIssueKeyCheckBox"
                               IsChecked="{Binding WidgetShowIssueKey}"
                               Content="Show the Jira issue key on the widget" />
+                    <CheckBox x:Name="ShowOutlineCheckBox"
+                              IsChecked="{Binding WidgetShowOutline}"
+                              Content="Show a highlighted outline around the widget" />
                     <StackPanel Orientation="Horizontal" Spacing="10">
                         <Button x:Name="ResetPositionButton"
                                 Classes="toolbar"

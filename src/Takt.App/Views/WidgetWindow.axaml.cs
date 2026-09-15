@@ -125,6 +125,7 @@ public sealed partial class WidgetWindow : Window
     {
         var settings = _settings.Get();
         Topmost = settings.WidgetAlwaysOnTop;
+        RootBorder.BorderThickness = settings.WidgetShowOutline ? new(1) : new();
         if (settings is { WidgetPositionX: null, WidgetPositionY: null })
         {
             MoveToDefaultPosition();
